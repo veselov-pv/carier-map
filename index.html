@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+	<meta charset="UTF-8"/>
+	<title>Career Map</title>
+	<link rel="stylesheet" href="css/external/jquery-ui.css"/>
+	<link rel="stylesheet" href="css/styles.css"/>
+	<script src="js/external/jquery-1.7.2.min.js"></script>
+	<script src="js/external/jquery-ui.min.js"></script>
+	<script src="js/external/jquery.jsPlumb-1.7.2-min.js"></script>
+	<script src="js/main.js"></script>
+</head>
+<body>
+
+<div class="career-map edit-mode">
+	<div class="edit-panel">
+		<button id="add-btn" class="">Add node</button>
+		<button id="save-btn" class="">Save</button>
+		<button id="discard-btn" class="">Discard all</button>
+		<label for="grid-selector">Grid</label>
+		<select id="grid-selector" name="grid">
+			<option value="10px" selected="selected">10px</option>
+			<option value="20px">20px</option>
+		</select>
+		<button id="remove-btn" class="">Remove</button>
+	</div>
+	<div id="container" class="container"></div>
+</div>
+
+</body>
+</html>
