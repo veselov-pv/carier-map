@@ -217,3 +217,6 @@ var mapperEditor = new function () {
 		}
 	}
 };
+
+/* TODO: fix content editable mode with empty html - don't allowed to type */
+/* TODO: fix content editable mode select all - selected with remove-button */
