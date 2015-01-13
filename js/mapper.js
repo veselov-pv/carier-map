@@ -95,7 +95,7 @@ var mapper = new function () {
 						width: o.width,
 						height: o.height
 					},
-					html: o.html
+					html: '<span class="text-wrapper">' + o.html + '</span>'
 				});
 
 				$nodes = $nodes.add($newNode);

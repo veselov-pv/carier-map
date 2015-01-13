@@ -17,18 +17,23 @@
 .node {
 	position: absolute !important;
 	display: inline-block;
-	overflow: hidden;
+	/*overflow: hidden;*/
 	width: 5em;
 	height: 5em;
-	padding: 0.5em;
+	padding: 10px;
 	z-index: 1;
-	border-radius: 5px;
-	border: 1px solid black;
+	border: #FDD8BD 2px solid;
+	border-radius: 0 30px;
 	box-shadow: 2px 2px 19px #aaa;
 	background: white;
 	opacity: 1;
 	text-align: center;
 	font-family: Helvetica, Arial, sans-serif;
+}
+
+.text-wrapper {
+	display: inline-block;
+	/*outline: none;*/
 }
 
 ._jsPlumb_overlay {
@@ -42,6 +47,12 @@
 
 ._jsPlumb_connector {
 	z-index: 1;
+}
+
+.edit-mode .ui-resizable-e:hover,
+.edit-mode .ui-resizable-s:hover,
+.edit-mode .ui-resizable-se:hover {
+	background-color: #b6d4f2;
 }
 
 .edit-mode ._jsPlumb_connector {
@@ -62,18 +73,21 @@
 }
 
 .edit-mode .remove-button {
-	cursor: pointer;
 	position: absolute;
 	top: 2px;
 	left: 2px;
-	font-size: 13px;
-	font-family: Courier New, Courier, Monospace;
 	width: 14px;
 	height: 14px;
+	cursor: pointer;
 	line-height: 13px;
+	font-size: 13px;
+	font-family: Courier New, Courier, Monospace;
+	color: #999;
+	border-radius: 3px;
 }
 
 .edit-mode .remove-button:hover {
-	background-color: #ccc;
+	background-color: #b6d4f2;
 	font-weight: bold;
+	color: #333;
 }

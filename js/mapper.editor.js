@@ -35,7 +35,7 @@ var mapperEditor = new function () {
 					width: 100,
 					height: 40
 				},
-				html: 'New node',
+				html: '<span class="text-wrapper">New node</span>',
 				click: _t.selectNode
 			};
 
@@ -72,9 +72,7 @@ var mapperEditor = new function () {
 				containment: 'parent',
 				disabled: mode,
 				//stack: '.node',  // high z-index for current draggable element
-				start: function () {
-					$(this).addClass('noclick');
-				},
+				start: function () {},
 				drag: function () {
 					plumb.repaintEverything();
 				},
@@ -121,18 +119,23 @@ var mapperEditor = new function () {
 			}
 		},
 		contentEditable: function (el) {
-			$(el).find('>*').attr('contenteditable', false);
+			$(el).find('>*').not('.text-wrapper').prop('contenteditable', false);
+
 			$(el).on('dblclick', function () {
 				_t.draggable(this, false);
 				$(this).addClass('editing');
-				$(this).prop('contenteditable', true);
-				_t.placeCaretAtEnd(this);
-			}).on('blur', function () {
-				$(this).prop('contenteditable', false);
-				$(this).removeClass('editing');
-				_t.draggable(this);
+				var $textWr = $(this).find('.text-wrapper');
+				$textWr.prop('contenteditable', true);
+				_t.placeCaretAtEnd($textWr.get(0));
 			}).on('click', function () {
-				$('.node').not(this).trigger('blur');
+				if (!$('.editing').not(this).size()) return;
+				$('.node').not(this).find('.text-wrapper').trigger('blur');
+			});
+			$(el).find('.text-wrapper').on('blur', function () {
+				$(this).prop('contenteditable', false);
+				var $parentNode = $(this).parent('.node');
+				$parentNode.removeClass('editing');
+				_t.draggable($parentNode);
 			});
 		},
 		save: function () {
@@ -145,7 +148,7 @@ var mapperEditor = new function () {
 			$nodeCollection.each(function () {
 				nodes.push({
 					id: $(this).attr('id'),
-					html: $(this).html(),
+					html: $(this).find('.text-wrapper').html(),
 					left: $(this).css('left'),
 					top: $(this).css('top'),
 					width: $(this).css('width'),
@@ -218,5 +221,7 @@ var mapperEditor = new function () {
 	}
 };
 
-/* TODO: fix content editable mode with empty html - don't allowed to type */
-/* TODO: fix content editable mode select all - selected with remove-button */
+/* TODO: fix content editable mode - with empty html - caret moves to the left and become invisible  */
+/* TODO: fix content editable mode - type more than area - shift the control elements */
+/* TODO: fix content editable mode - caret position strange behavior on dblclick in multiline text */
+/* TODO: fix content editable mode + normal mode - vertical centering */
