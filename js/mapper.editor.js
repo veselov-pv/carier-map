@@ -138,19 +138,20 @@ var mapperEditor = new function () {
 			}
 		},
 		contentEditable: function (el) {
-			$(el).on('dblclick',function () {
+			$(el).find('>*').attr('contenteditable', false);
+			$(el).on('dblclick', function () {
 				$('.node').removeClass('selected-node');
 				_t.draggable(this, false);
 				$(this).addClass('editing');
 				$(this).prop('contenteditable', true);
 				_t.placeCaretAtEnd(this);
-			}).on('blur',function () {
-					$(this).prop('contenteditable', false);
-					$(this).removeClass('editing');
-					_t.draggable(this);
-				}).on('click', function () {
-					$('.node').not(this).trigger('blur');
-				});
+			}).on('blur', function () {
+				$(this).prop('contenteditable', false);
+				$(this).removeClass('editing');
+				_t.draggable(this);
+			}).on('click', function () {
+				$('.node').not(this).trigger('blur');
+			});
 		},
 		save: function () {
 
