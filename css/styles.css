@@ -74,16 +74,15 @@
 
 .edit-mode .remove-button {
 	position: absolute;
+	z-index: 1000;
 	top: 2px;
 	left: 2px;
-	width: 14px;
-	height: 14px;
+	width: 15px;
+	height: 15px;
 	cursor: pointer;
-	line-height: 13px;
-	font-size: 13px;
-	font-family: Courier New, Courier, Monospace;
-	color: #999;
 	border-radius: 3px;
+	background-color: #efefef;
+	background: url(../img/cross1.png) no-repeat 3px 3px;
 }
 
 .edit-mode .remove-button:hover {

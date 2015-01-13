@@ -90,10 +90,7 @@ var mapperEditor = new function () {
 			$nodeCollection.each(function () {
 				var removeBtnSetObj = {
 					class: 'remove-button',
-					html: 'x',
-					css: {
-						'z-index': 1000
-					},
+					title: 'Delete',
 					click: _t.removeNode
 				};
 				var $removeBtn = $('<div/>', removeBtnSetObj);
