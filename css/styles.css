@@ -3,23 +3,6 @@
     padding: 0;
 }
 
-._jsPlumb_overlay {
-    z-index: 51;
-}
-
-._jsPlumb_endpoint {
-    z-index: 50;
-    cursor: move;
-}
-
-._jsPlumb_connector {
-    z-index: 1;
-}
-
-.edit-mode ._jsPlumb_connector {
-	cursor: not-allowed;
-}
-
 .container {
     position: relative;
     width: 100%;
@@ -45,6 +28,23 @@
 	opacity: 1;
 	text-align: center;
 	font-family: Helvetica, Arial, sans-serif;
+}
+
+._jsPlumb_overlay {
+	z-index: 51;
+}
+
+._jsPlumb_endpoint {
+	z-index: 50;
+	cursor: move;
+}
+
+._jsPlumb_connector {
+	z-index: 1;
+}
+
+.edit-mode ._jsPlumb_connector {
+	cursor: not-allowed;
 }
 
 .edit-mode .editing {
