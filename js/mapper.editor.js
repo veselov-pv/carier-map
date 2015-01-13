@@ -8,34 +8,12 @@ var mapperEditor = new function () {
 			plumb = _t.getPlumb();
 			_t.initEditStyle();
 		},
-		removeSelectedNodes: function () {
-			var $nodes = $('.selected-node');
-			$nodes.each(function () {
-				plumb.detachAllConnections(this);
-				plumb.removeAllEndpoints(this);
-				plumb.detach(this);
-				$(this).remove();
-			});
-		},
-		selectNode: function (e) {
-			if ($(this).hasClass('editing')) return;
-			if ($(this).hasClass('noclick')) {
-				$(this).removeClass('noclick');
-			} else {
-				e.stopPropagation();
-				var sel = 'selected-node';
-				if (e.shiftKey) {
-					$(this).toggleClass(sel);
-				} else {
-					var selectedNodeAmount = $('.' + sel).size();
-					if (selectedNodeAmount > 1 || !$(this).hasClass(sel)) {
-						$('.node').removeClass(sel);
-						$(this).addClass(sel);
-					} else {
-						$(this).toggleClass(sel);
-					}
-				}
-			}
+		removeNode: function () {
+			var node = $(this).parent('.node').get(0);
+			plumb.detachAllConnections(node);
+			plumb.removeAllEndpoints(node);
+			plumb.detach(node);
+			$(node).remove();
 		},
 		getGeneratedId: function () {
 			var id = null;
@@ -87,7 +65,7 @@ var mapperEditor = new function () {
 			$(el).resizable({grid: step});
 		},
 		draggable: function (el, mode) {
-			mode = (mode === false); // not '!=' because only for strict false
+			mode = (mode === false); // inverse, not '!=' because only for strict false
 			var step = _t.getGridStep();
 			$(el).draggable({
 				grid: [step, step],
@@ -105,15 +83,20 @@ var mapperEditor = new function () {
 				}
 			});
 		},
-		removable: function (nodeSelector) {
+		removable: function (nodeSelector, mode) {
 			var $nodeCollection = $(nodeSelector);
+			if (mode === false) {
+				$nodeCollection.find('.remove-button').remove();
+				return;
+			}
 			$nodeCollection.each(function () {
 				var removeBtnSetObj = {
 					class: 'remove-button',
 					html: 'x',
 					css: {
 						'z-index': 1000
-					}
+					},
+					click: _t.removeNode
 				};
 				var $removeBtn = $('<div/>', removeBtnSetObj);
 
@@ -140,7 +123,6 @@ var mapperEditor = new function () {
 		contentEditable: function (el) {
 			$(el).find('>*').attr('contenteditable', false);
 			$(el).on('dblclick', function () {
-				$('.node').removeClass('selected-node');
 				_t.draggable(this, false);
 				$(this).addClass('editing');
 				$(this).prop('contenteditable', true);
@@ -158,6 +140,7 @@ var mapperEditor = new function () {
 			/* save nodes */
 			var $nodeCollection = $('.node');
 			_t.resizable($nodeCollection, false);
+			_t.removable($nodeCollection, false);
 			var nodes = [];
 			$nodeCollection.each(function () {
 				nodes.push({
@@ -170,6 +153,7 @@ var mapperEditor = new function () {
 				});
 			});
 			_t.resizable($nodeCollection);
+			_t.removable($nodeCollection);
 
 			/* save connections */
 			var connections = [];
@@ -203,17 +187,6 @@ var mapperEditor = new function () {
 
 			localStorage.mapData = JSON.stringify(data);
 		},
-		discard: function () {
-			_t.draggable('.node', false); //not necessary
-			_t.resizable('.node', false); //not necessary
-			plumb.reset();
-			$('.node').remove();
-			_t.renderMap();
-			_t.draggable('.node');
-			_t.resizable('.node');
-			_t.contentEditable('.node');
-			plumb.repaintEverything();
-		},
 		buildGrid: function () {
 			var $nodeCollection = $('.node');
 			var gridSelectorValue = $('#grid-selector').val();
@@ -224,9 +197,6 @@ var mapperEditor = new function () {
 
 			_t.draggable($nodeCollection); // reload grid step
 			_t.resizable($nodeCollection); // reload grid step
-		},
-		deselectAllNodes: function () {
-			$('.node').removeClass('selected-node');
 		},
 		removeConnection: function (connection) {
 			plumb.detach(connection);
@@ -241,11 +211,7 @@ var mapperEditor = new function () {
 			_t.removable('.node');
 			$('#add-btn').on('click', _t.addNode);
 			$('#save-btn').on('click', _t.save);
-			$('#discard-btn').on('click', _t.discard);
 			$('#grid-selector').on('change', _t.buildGrid);
-			$('#remove-btn').on('click', _t.removeSelectedNodes);
-			$('.node').on('click', _t.selectNode);
-			$container.on('click', _t.deselectAllNodes);
 			plumb.bind('dblclick', _t.removeConnection);
 			_t.buildGrid();
 		}

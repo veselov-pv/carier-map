@@ -1,16 +1,17 @@
 * {
-    margin: 0;
-    padding: 0;
+	margin: 0;
+	padding: 0;
+	font-family: Helvetica, Arial, sans-serif;
 }
 
 .container {
-    position: relative;
-    width: 100%;
-    height: 600px;
-    border: 1px rgba(0, 0, 0, 0) solid;
-    background-repeat: repeat repeat;
-    background-position: 0 0;
-    /*background-clip: border-box;*/
+	position: relative;
+	width: 100%;
+	height: 600px;
+	border: 1px rgba(0, 0, 0, 0) solid;
+	background-repeat: repeat repeat;
+	background-position: 0 0;
+	/*background-clip: border-box;*/
 }
 
 .node {
@@ -53,15 +54,26 @@
 }
 
 .edit-mode .container.grid-10px {
-    background-image: url("../img/10px-aaa.png");
+	background-image: url("../img/10px-aaa.png");
 }
 
 .edit-mode .container.grid-20px {
-    background: url("../img/20px-aaa.png");
+	background: url("../img/20px-aaa.png");
 }
 
+.edit-mode .remove-button {
+	cursor: pointer;
+	position: absolute;
+	top: 2px;
+	left: 2px;
+	font-size: 13px;
+	font-family: Courier New, Courier, Monospace;
+	width: 14px;
+	height: 14px;
+	line-height: 13px;
+}
 
-.edit-mode .selected-node {
-	outline: red auto 5px;
-	box-shadow: 2px 2px 19px red;
+.edit-mode .remove-button:hover {
+	background-color: #ddd;
+	font-weight: bold;
 }
