@@ -221,4 +221,5 @@ var mapperEditor = new function () {
 /* TODO: fix content editable mode - with empty html - caret moves to the left and become invisible  */
 /* TODO: fix content editable mode - type more than area - shift the control elements */
 /* TODO: fix content editable mode - caret position strange behavior on dblclick in multiline text */
-/* TODO: fix content editable mode + normal mode - vertical centering */
+/* TODO: vertical centering of node titles */
+/* TODO: to build edit control panel by js */

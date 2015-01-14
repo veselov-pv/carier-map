@@ -19,21 +19,26 @@ var mapper = new function () {
 			});
 
 			plumb.importDefaults({
-				Connector: "Straight", // "Flowchart"
+				Connector: [ 'Flowchart', {
+					cornerRadius: 10,
+					stub: 28
+				} ],// "Straight", "Flowchart", "Bezier", "StateMachine"
 				ConnectionsDetachable: true,
 				ConnectionOverlays: [
 					[ "Arrow", {
-						location: 0.7,
-						width: 12,
-						length: 15,
+						location: 1,
+						width: 8,
+						length: 10,
 						foldback: 1
 					} ]
 				],
 				Endpoint: 'Blank',
 				MaxConnections: 10,
 				PaintStyle: {
-					strokeStyle: '#666',
-					lineWidth: 2
+					strokeStyle: '#888',
+					lineWidth: 2,
+					'stroke-dasharray': [2, 2],
+					'stroke-dashoffset': [1,1]
 				},
 				RenderMode: "svg"
 			});

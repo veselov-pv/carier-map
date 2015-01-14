@@ -66,11 +66,11 @@
 }
 
 .edit-mode .container.grid-10px {
-	background-image: url("../img/10px-aaa.png");
+	background-image: url("../img/10px-ccc.png");
 }
 
 .edit-mode .container.grid-20px {
-	background: url("../img/20px-aaa.png");
+	background-image: url("../img/20px-ccc.png");
 }
 
 .edit-mode .remove-button {
