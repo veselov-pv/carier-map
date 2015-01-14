@@ -72,7 +72,8 @@ var mapperEditor = new function () {
 				containment: 'parent',
 				disabled: mode,
 				//stack: '.node',  // high z-index for current draggable element
-				start: function () {},
+				start: function () {
+				},
 				drag: function () {
 					plumb.repaintEverything();
 				},
@@ -118,16 +119,16 @@ var mapperEditor = new function () {
 		contentEditable: function (el) {
 			$(el).find('>*').not('.text-wrapper').prop('contenteditable', false);
 
-			$(el).on('dblclick', function () {
+			$(el).on('dblclick',function () {
 				_t.draggable(this, false);
 				$(this).addClass('editing');
 				var $textWr = $(this).find('.text-wrapper');
 				$textWr.prop('contenteditable', true);
 				_t.placeCaretAtEnd($textWr.get(0));
 			}).on('click', function () {
-				if (!$('.editing').not(this).size()) return;
-				$('.node').not(this).find('.text-wrapper').trigger('blur');
-			});
+					if (!$('.editing').not(this).size()) return;
+					$('.node').not(this).find('.text-wrapper').trigger('blur');
+				});
 			$(el).find('.text-wrapper').on('blur', function () {
 				$(this).prop('contenteditable', false);
 				var $parentNode = $(this).parent('.node');
@@ -189,7 +190,7 @@ var mapperEditor = new function () {
 		},
 		buildGrid: function () {
 			var $nodeCollection = $('.node');
-			var gridSelectorValue = $('#grid-selector').val();
+			var gridSelectorValue = $('.edit-panel .grid-selector').val();
 
 			_t.setGridStep(parseInt(gridSelectorValue));
 			$container.removeClass('grid-10px grid-20px');
@@ -203,15 +204,49 @@ var mapperEditor = new function () {
 		},
 		initEditStyle: function () {
 			plumb.Defaults.Endpoint = [ "Dot", { radius: 8 } ];
+			$container.parent().addClass('mapper-edit-mode');
+		},
+		buildEditControls: function () {
+			var $editPanel = $('<div/>', {
+				class: 'edit-panel'
+			});
+			var $addBtn = $('<button/>', {
+				class: 'add-btn',
+				text: 'Add node'
+			});
+			var $saveBtn = $('<button/>', {
+				class: 'save-btn',
+				text: 'Save'
+			});
+			var $gridSelectorLabel = $('<label/>', {
+				for: 'gridSelector',
+				text: 'Grid'
+			});
+			var $gridSelector = $('<select/>', {
+				id: 'gridSelector',
+				class: 'grid-selector'
+			});
+			var optionValueArray = ['10px', '20px'];
+			for (var i = 0; i < 2; i++) {
+				$('<option/>', {
+					value: optionValueArray[i],
+					text: optionValueArray[i],
+					selected: (i == 0)
+				}).appendTo($gridSelector);
+			}
+			$editPanel.append($addBtn).append($saveBtn).append($gridSelectorLabel).append($gridSelector).insertBefore($container);
 		},
 		afterRenderAction: function () {
 			_t.draggable('.node');
 			_t.resizable('.node');
 			_t.contentEditable('.node');
 			_t.removable('.node');
-			$('#add-btn').on('click', _t.addNode);
-			$('#save-btn').on('click', _t.save);
-			$('#grid-selector').on('change', _t.buildGrid);
+
+			_t.buildEditControls();
+			$('.edit-panel .add-btn').on('click', _t.addNode);
+			$('.edit-panel .save-btn').on('click', _t.save);
+			$('.edit-panel .grid-selector').on('change', _t.buildGrid);
+
 			plumb.bind('dblclick', _t.removeConnection);
 			_t.buildGrid();
 		}
@@ -222,4 +257,3 @@ var mapperEditor = new function () {
 /* TODO: fix content editable mode - type more than area - shift the control elements */
 /* TODO: fix content editable mode - caret position strange behavior on dblclick in multiline text */
 /* TODO: vertical centering of node titles */
-/* TODO: to build edit control panel by js */
