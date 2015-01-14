@@ -34,12 +34,15 @@ var mapperEditor = new function () {
 					top: 40,
 					width: 100,
 					height: 40
-				},
-				html: '<span class="text-wrapper">New node</span>',
-				click: _t.selectNode
+				}
 			};
 
-			var $newNode = $('<div/>', defaultObj);
+			var textWrapperObj = {
+				class: 'text-wrapper',
+				text: 'New node'
+			};
+
+			var $newNode = $('<div/>', defaultObj).append($('<span/>', textWrapperObj));
 
 			_t.contentEditable($newNode);
 			_t.draggable($newNode);
@@ -203,7 +206,7 @@ var mapperEditor = new function () {
 			plumb.detach(connection);
 		},
 		initEditStyle: function () {
-			plumb.Defaults.Endpoint = [ "Dot", { radius: 8 } ];
+			plumb.Defaults.Endpoint = [ "Dot", { radius: 7 } ];
 			$container.parent().addClass('mapper-edit-mode');
 		},
 		buildEditControls: function () {
@@ -257,3 +260,4 @@ var mapperEditor = new function () {
 /* TODO: fix content editable mode - type more than area - shift the control elements */
 /* TODO: fix content editable mode - caret position strange behavior on dblclick in multiline text */
 /* TODO: vertical centering of node titles */
+/* TODO: addNode() common approach */

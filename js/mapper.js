@@ -91,7 +91,7 @@ var mapper = new function () {
 
 			var $nodes = $();
 			$.each(mapData.nodes, function (index, o) {
-				var $newNode = $('<div/>', {
+				var nodeObj = {
 					id: o.id,
 					class: 'node',
 					css: {
@@ -99,9 +99,15 @@ var mapper = new function () {
 						top: o.top,
 						width: o.width,
 						height: o.height
-					},
-					html: '<span class="text-wrapper">' + o.html + '</span>'
-				});
+					}
+				};
+
+				var textWrapperObj = {
+					class: 'text-wrapper',
+					text: o.html
+				};
+
+				var $newNode = $('<div/>', nodeObj).append($('<span/>', textWrapperObj));
 
 				$nodes = $nodes.add($newNode);
 			});
