@@ -25,9 +25,9 @@
 .mapper-edit-mode .container.grid-20px {
 	background-image: url("../img/20px-ccc.png");
 }
-
+.mapper-edit-mode .editing.node:hover .remove-button,
 .mapper-edit-mode .remove-button {
-	display: none;
+	visibility: hidden;
 	position: absolute;
 	z-index: 1000;
 	top: 2px;
@@ -41,7 +41,7 @@
 }
 
 .mapper-edit-mode .node:hover .remove-button {
-	display: block;
+	visibility: visible;
 }
 
 .mapper-edit-mode .remove-button:hover {
@@ -50,15 +50,32 @@
 	color: #333;
 }
 
+.mapper-edit-mode .editing.node:hover .ui-resizable-e,
+.mapper-edit-mode .editing.node:hover .ui-resizable-s,
+.mapper-edit-mode .editing.node:hover .ui-resizable-se,
+.mapper-edit-mode .ui-resizable-e,
+.mapper-edit-mode .ui-resizable-s,
 .mapper-edit-mode .ui-resizable-se {
+	visibility: hidden;
 	filter: alpha(opacity=40);
 	-moz-opacity: 0.4;
 	opacity: 0.4;
 }
 
-.mapper-edit-mode .ui-resizable-e:hover,
-.mapper-edit-mode .ui-resizable-s:hover,
-.mapper-edit-mode .ui-resizable-se:hover {
+.mapper-edit-mode .ui-resizable-e,
+.mapper-edit-mode .ui-resizable-s {
+	background-color: #ddd;
+}
+
+.mapper-edit-mode .node:hover .ui-resizable-e,
+.mapper-edit-mode .node:hover .ui-resizable-s,
+.mapper-edit-mode .node:hover .ui-resizable-se {
+	visibility: visible;
+}
+
+.mapper-edit-mode .node .ui-resizable-e:hover,
+.mapper-edit-mode .node .ui-resizable-s:hover,
+.mapper-edit-mode .node .ui-resizable-se:hover {
 	background-color: #b6d4f2;
 	filter: alpha(opacity=100);
 	-moz-opacity: 1;

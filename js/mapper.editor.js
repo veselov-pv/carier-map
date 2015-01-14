@@ -104,6 +104,7 @@ var mapperEditor = new function () {
 		},
 		placeCaretAtEnd: function (el) {
 			el.focus();
+			if ($(el).text() == '') return;
 			if (typeof window.getSelection != "undefined"
 				&& typeof document.createRange != "undefined") {
 				var range = document.createRange();
@@ -207,6 +208,8 @@ var mapperEditor = new function () {
 		},
 		initEditStyle: function () {
 			plumb.Defaults.Endpoint = [ "Dot", { radius: 7 } ];
+			plumb.Defaults.EndpointStyle = { strokeStyle: '#aaa' };
+
 			$container.parent().addClass('mapper-edit-mode');
 		},
 		buildEditControls: function () {
@@ -257,7 +260,9 @@ var mapperEditor = new function () {
 };
 
 /* TODO: fix content editable mode - with empty html - caret moves to the left and become invisible  */
-/* TODO: fix content editable mode - type more than area - shift the control elements */
 /* TODO: fix content editable mode - caret position strange behavior on dblclick in multiline text */
-/* TODO: vertical centering of node titles */
+/* TODO: !!! vertical centering of node titles !!! */
 /* TODO: addNode() common approach */
+/* TODO: all css-selectors replace to variables. create css-selectors library */
+/* TODO: create editable method (draggable, resizable... in one block) */
+/* TODO:  !!! different types of nodes !!! */
