@@ -50,14 +50,14 @@
 	z-index: 1;
 }
 
+.edit-mode ._jsPlumb_connector {
+	cursor: not-allowed;
+}
+
 .edit-mode .ui-resizable-e:hover,
 .edit-mode .ui-resizable-s:hover,
 .edit-mode .ui-resizable-se:hover {
 	background-color: #b6d4f2;
-}
-
-.edit-mode ._jsPlumb_connector {
-	cursor: not-allowed;
 }
 
 .edit-mode .editing {
@@ -74,6 +74,7 @@
 }
 
 .edit-mode .remove-button {
+	display: none;
 	position: absolute;
 	z-index: 1000;
 	top: 2px;
@@ -84,6 +85,10 @@
 	border-radius: 3px;
 	background-color: #efefef;
 	background: url(../img/cross1.png) no-repeat 3px 3px;
+}
+
+.edit-mode .node:hover .remove-button {
+	display: block;
 }
 
 .edit-mode .remove-button:hover {
