@@ -259,7 +259,6 @@ var mapperEditor = new function () {
 	}
 };
 
-/* TODO: fix content editable mode - with empty html - caret moves to the left and become invisible  */
 /* TODO: fix content editable mode - caret position strange behavior on dblclick in multiline text */
 /* TODO: !!! vertical centering of node titles !!! */
 /* TODO: addNode() common approach */
