@@ -38,7 +38,7 @@ var mapper = new function () {
 					strokeStyle: '#888',
 					lineWidth: 2,
 					'stroke-dasharray': [2, 2],
-					'stroke-dashoffset': [1,1]
+					'stroke-dashoffset': [1, 1]
 				},
 				RenderMode: "svg"
 			});
@@ -81,6 +81,15 @@ var mapper = new function () {
 			return neededEndpoint;
 		},
 
+		verticalCenterAlign: function (elCollection) {
+			$(elCollection).each(function () {
+				var $el = $(this);
+				var $parent = $el.parent();
+				var marginTop = ($parent.height() - parseFloat($parent.css('padding-top')) - $el.height()) / 2;
+				$el.css('margin-top', marginTop)
+			});
+		},
+
 		renderMap: function () {
 
 			if (!localStorage.mapData) return;
@@ -93,7 +102,7 @@ var mapper = new function () {
 			$.each(mapData.nodes, function (index, o) {
 				var nodeObj = {
 					id: o.id,
-					class: 'node',
+					'class': 'node',
 					css: {
 						left: o.left,
 						top: o.top,
@@ -103,17 +112,20 @@ var mapper = new function () {
 				};
 
 				var textWrapperObj = {
-					class: 'text-wrapper',
-					text: o.html
+					'class': 'text-wrapper',
+					html: o.html
 				};
 
-				var $newNode = $('<div/>', nodeObj).append($('<span/>', textWrapperObj));
+				var $textWrapper = $('<span/>', textWrapperObj);
+
+				var $newNode = $('<div/>', nodeObj).append($textWrapper);
 
 				$nodes = $nodes.add($newNode);
 			});
 
 			$container.append($nodes);
 
+			_t.verticalCenterAlign($nodes.find('.text-wrapper'));
 			_t.addAllEndpoints($nodes);
 
 			/* load connections */

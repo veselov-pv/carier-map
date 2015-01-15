@@ -4,9 +4,24 @@ var mapperEditor = new function () {
 	return {
 		initModule: function () {
 			_t = this;
+			_t.contentEditableChangeEventInit();
 			$container = _t.getContainer();
 			plumb = _t.getPlumb();
 			_t.initEditStyle();
+		},
+		contentEditableChangeEventInit: function () {
+			$('body').on('contentEditableStart', '[contenteditable]', function() {
+				var $this = $(this);
+				$this.data('contentBefore', $this.html());
+				return $this;
+			}).on('blur keyup paste cut input', '[contenteditable]', function() {
+				var $this = $(this);
+				if ($this.data('before') !== $this.html()) {
+					$this.data('before', $this.html());
+					$this.trigger('contentEditableChange');
+				}
+				return $this;
+			});
 		},
 		removeNode: function () {
 			var node = $(this).parent('.node').get(0);
@@ -28,7 +43,7 @@ var mapperEditor = new function () {
 		addNode: function () {
 			var defaultObj = {
 				id: _t.getGeneratedId(),
-				class: 'node',
+				'class': 'node',
 				css: {
 					left: 40,
 					top: 40,
@@ -38,12 +53,15 @@ var mapperEditor = new function () {
 			};
 
 			var textWrapperObj = {
-				class: 'text-wrapper',
-				text: 'New node'
+				'class': 'text-wrapper',
+				html: 'New node'
 			};
 
-			var $newNode = $('<div/>', defaultObj).append($('<span/>', textWrapperObj));
+			var $textWrapper = $('<span/>', textWrapperObj);
 
+			var $newNode = $('<div/>', defaultObj).append($textWrapper);
+
+			_t.verticalCenterAlignOnContentEdit($textWrapper);
 			_t.contentEditable($newNode);
 			_t.draggable($newNode);
 			_t.resizable($newNode);
@@ -51,6 +69,7 @@ var mapperEditor = new function () {
 
 			$container.append($newNode);
 
+			_t.verticalCenterAlign($newNode.find('.text-wrapper'));
 			_t.addAllEndpoints($newNode);
 		},
 		setGridStep: function (step) {
@@ -65,7 +84,12 @@ var mapperEditor = new function () {
 				return;
 			}
 			var step = _t.getGridStep();
-			$(el).resizable({grid: step});
+			$(el).resizable({
+				grid: step,
+				resize: function (e, ui) {
+					_t.verticalCenterAlign($(ui.element).find('.text-wrapper'));
+				}
+			});
 		},
 		draggable: function (el, mode) {
 			mode = (mode === false); // inverse, not '!=' because only for strict false
@@ -93,7 +117,7 @@ var mapperEditor = new function () {
 			}
 			$nodeCollection.each(function () {
 				var removeBtnSetObj = {
-					class: 'remove-button',
+					'class': 'remove-button',
 					title: 'Delete',
 					click: _t.removeNode
 				};
@@ -128,6 +152,7 @@ var mapperEditor = new function () {
 				$(this).addClass('editing');
 				var $textWr = $(this).find('.text-wrapper');
 				$textWr.prop('contenteditable', true);
+				$textWr.trigger('contentEditableStart');
 				_t.placeCaretAtEnd($textWr.get(0));
 			}).on('click', function () {
 					if (!$('.editing').not(this).size()) return;
@@ -139,6 +164,11 @@ var mapperEditor = new function () {
 				$parentNode.removeClass('editing');
 				_t.draggable($parentNode);
 			});
+		},
+		verticalCenterAlignOnContentEdit: function (el) {
+			$(el).on('contentEditableChange', function () {
+				_t.verticalCenterAlign(this);
+			} );
 		},
 		save: function () {
 
@@ -216,14 +246,14 @@ var mapperEditor = new function () {
 		},
 		buildEditControls: function () {
 			var $editPanel = $('<div/>', {
-				class: 'edit-panel'
+				'class': 'edit-panel'
 			});
 			var $addBtn = $('<button/>', {
-				class: 'add-btn',
+				'class': 'add-btn',
 				text: 'Add node'
 			});
 			var $saveBtn = $('<button/>', {
-				class: 'save-btn',
+				'class': 'save-btn',
 				text: 'Save'
 			});
 			var $gridSelectorLabel = $('<label/>', {
@@ -232,7 +262,7 @@ var mapperEditor = new function () {
 			});
 			var $gridSelector = $('<select/>', {
 				id: 'gridSelector',
-				class: 'grid-selector'
+				'class': 'grid-selector'
 			});
 			var optionValueArray = ['10px', '20px'];
 			for (var i = 0; i < 2; i++) {
@@ -249,6 +279,7 @@ var mapperEditor = new function () {
 			_t.resizable('.node');
 			_t.contentEditable('.node');
 			_t.removable('.node');
+			_t.verticalCenterAlignOnContentEdit('.text-wrapper');
 
 			_t.buildEditControls();
 			$('.edit-panel .add-btn').on('click', _t.addNode);
@@ -262,7 +293,6 @@ var mapperEditor = new function () {
 };
 
 /* TODO: fix content editable mode - caret position strange behavior on dblclick in multiline text */
-/* TODO: !!! vertical centering of node titles !!! */
 /* TODO: addNode() common approach */
 /* TODO: all css-selectors replace to variables. create css-selectors library */
 /* TODO: create editable method (draggable, resizable... in one block) */
