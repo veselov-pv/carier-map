@@ -92,53 +92,53 @@ var mapper = new function () {
 
 		renderMap: function () {
 
-			if (!localStorage.mapData) return;
+			if (localStorage.mapData) {
 
-			var mapData = JSON.parse(localStorage.mapData);
+				var mapData = JSON.parse(localStorage.mapData);
 
-			/* load nodes */
+				/* load nodes */
 
-			var $nodes = $();
-			$.each(mapData.nodes, function (index, o) {
-				var nodeObj = {
-					id: o.id,
-					'class': 'node',
-					css: {
-						left: o.left,
-						top: o.top,
-						width: o.width,
-						height: o.height
-					}
-				};
+				var $nodes = $();
+				$.each(mapData.nodes, function (index, o) {
+					var nodeObj = {
+						id: o.id,
+						'class': 'node',
+						css: {
+							left: o.left,
+							top: o.top,
+							width: o.width,
+							height: o.height
+						}
+					};
 
-				var textWrapperObj = {
-					'class': 'text-wrapper',
-					html: o.html
-				};
+					var textWrapperObj = {
+						'class': 'text-wrapper',
+						html: o.html
+					};
 
-				var $textWrapper = $('<span/>', textWrapperObj);
+					var $textWrapper = $('<span/>', textWrapperObj);
 
-				var $newNode = $('<div/>', nodeObj).append($textWrapper);
+					var $newNode = $('<div/>', nodeObj).append($textWrapper);
 
-				$nodes = $nodes.add($newNode);
-			});
-
-			$container.append($nodes);
-
-			_t.verticalCenterAlign($nodes.find('.text-wrapper'));
-			_t.addAllEndpoints($nodes);
-
-			/* load connections */
-
-			$.each(mapData.connections, function (index, c) {
-				var source = _t.getEndpointByAnchorData(c.source, c.anchors[0]);
-				var target = _t.getEndpointByAnchorData(c.target, c.anchors[1]);
-				plumb.connect({
-					source: source,
-					target: target
+					$nodes = $nodes.add($newNode);
 				});
-			});
 
+				$container.append($nodes);
+
+				_t.verticalCenterAlign($nodes.find('.text-wrapper'));
+				_t.addAllEndpoints($nodes);
+
+				/* load connections */
+
+				$.each(mapData.connections, function (index, c) {
+					var source = _t.getEndpointByAnchorData(c.source, c.anchors[0]);
+					var target = _t.getEndpointByAnchorData(c.target, c.anchors[1]);
+					plumb.connect({
+						source: source,
+						target: target
+					});
+				});
+			}
 			_t.doAfterRenderActions();
 		},
 

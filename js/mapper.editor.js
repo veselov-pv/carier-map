@@ -273,6 +273,10 @@ var mapperEditor = new function () {
 				}).appendTo($gridSelector);
 			}
 			$editPanel.append($addBtn).append($saveBtn).append($gridSelectorLabel).append($gridSelector).insertBefore($container);
+
+			$('.edit-panel .add-btn').on('click', _t.addNode);
+			$('.edit-panel .save-btn').on('click', _t.save);
+			$('.edit-panel .grid-selector').on('change', _t.buildGrid);
 		},
 		afterRenderAction: function () {
 			_t.draggable('.node');
@@ -280,13 +284,9 @@ var mapperEditor = new function () {
 			_t.contentEditable('.node');
 			_t.removable('.node');
 			_t.verticalCenterAlignOnContentEdit('.text-wrapper');
+			plumb.bind('dblclick', _t.removeConnection);
 
 			_t.buildEditControls();
-			$('.edit-panel .add-btn').on('click', _t.addNode);
-			$('.edit-panel .save-btn').on('click', _t.save);
-			$('.edit-panel .grid-selector').on('change', _t.buildGrid);
-
-			plumb.bind('dblclick', _t.removeConnection);
 			_t.buildGrid();
 		}
 	}
