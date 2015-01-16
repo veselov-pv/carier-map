@@ -257,7 +257,7 @@ var mapperEditor = new function () {
 				text: 'Save'
 			});
 			var $gridSelectorLabel = $('<label/>', {
-				for: 'gridSelector',
+				'for': 'gridSelector',
 				text: 'Grid'
 			});
 			var $gridSelector = $('<select/>', {
