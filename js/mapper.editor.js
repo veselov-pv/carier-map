@@ -10,18 +10,18 @@ var mapperEditor = new function () {
 			_t.initEditStyle();
 		},
 		contentEditableChangeEventInit: function () {
-			$('body').on('contentEditableStart', '[contenteditable]', function() {
+			$('body').on('contentEditableStart', '[contenteditable]',function () {
 				var $this = $(this);
-				$this.data('contentBefore', $this.html());
+				$this.data('beforeEditContent', $this.html());
 				return $this;
-			}).on('blur keyup paste cut input', '[contenteditable]', function() {
-				var $this = $(this);
-				if ($this.data('before') !== $this.html()) {
-					$this.data('before', $this.html());
-					$this.trigger('contentEditableChange');
-				}
-				return $this;
-			});
+			}).on('blur keyup paste cut input', '[contenteditable]', function () {
+					var $this = $(this);
+					if ($this.data('beforeEditContent') !== $this.html()) {
+						$this.data('beforeEditContent', $this.html());
+						$this.trigger('contentEditableChange');
+					}
+					return $this;
+				});
 		},
 		removeNode: function () {
 			var node = $(this).parent('.node').get(0);
@@ -42,9 +42,9 @@ var mapperEditor = new function () {
 		},
 		addNode: function () {
 			var defaultObj = {
-				id: _t.getGeneratedId(),
+				'id': _t.getGeneratedId(),
 				'class': 'node',
-				css: {
+				'css': {
 					left: 40,
 					top: 40,
 					width: 100,
@@ -54,7 +54,7 @@ var mapperEditor = new function () {
 
 			var textWrapperObj = {
 				'class': 'text-wrapper',
-				html: 'New node'
+				'html': 'New node'
 			};
 
 			var $textWrapper = $('<span/>', textWrapperObj);
@@ -85,8 +85,8 @@ var mapperEditor = new function () {
 			}
 			var step = _t.getGridStep();
 			$(el).resizable({
-				grid: step,
-				resize: function (e, ui) {
+				'grid': step,
+				'resize': function (e, ui) {
 					_t.verticalCenterAlign($(ui.element).find('.text-wrapper'));
 				}
 			});
@@ -95,16 +95,16 @@ var mapperEditor = new function () {
 			mode = (mode === false); // inverse, not '!=' because only for strict false
 			var step = _t.getGridStep();
 			$(el).draggable({
-				grid: [step, step],
-				containment: 'parent',
-				disabled: mode,
+				'grid': [step, step],
+				'containment': 'parent',
+				'disabled': mode,
 				//stack: '.node',  // high z-index for current draggable element
-				start: function () {
+				'start': function () {
 				},
-				drag: function () {
+				'drag': function () {
 					plumb.repaintEverything();
 				},
-				stop: function () {
+				'stop': function () {
 					plumb.repaintEverything();
 				}
 			});
@@ -118,8 +118,8 @@ var mapperEditor = new function () {
 			$nodeCollection.each(function () {
 				var removeBtnSetObj = {
 					'class': 'remove-button',
-					title: 'Delete',
-					click: _t.removeNode
+					'title': 'Delete',
+					'click': _t.removeNode
 				};
 				var $removeBtn = $('<div/>', removeBtnSetObj);
 
@@ -168,7 +168,7 @@ var mapperEditor = new function () {
 		verticalCenterAlignOnContentEdit: function (el) {
 			$(el).on('contentEditableChange', function () {
 				_t.verticalCenterAlign(this);
-			} );
+			});
 		},
 		save: function () {
 
@@ -179,12 +179,12 @@ var mapperEditor = new function () {
 			var nodes = [];
 			$nodeCollection.each(function () {
 				nodes.push({
-					id: $(this).attr('id'),
-					html: $(this).find('.text-wrapper').html(),
-					left: $(this).css('left'),
-					top: $(this).css('top'),
-					width: $(this).css('width'),
-					height: $(this).css('height')
+					'id': $(this).attr('id'),
+					'html': $(this).find('.text-wrapper').html(),
+					'left': $(this).css('left'),
+					'top': $(this).css('top'),
+					'width': $(this).css('width'),
+					'height': $(this).css('height')
 				});
 			});
 			_t.resizable($nodeCollection);
@@ -196,10 +196,10 @@ var mapperEditor = new function () {
 			plumbConnections = Array.isArray(plumbConnections) ? plumbConnections : [plumbConnections];
 			$.each(plumbConnections, function (idx, connection) {
 				connections.push({
-					connectionId: connection.id,
-					source: connection.sourceId,
-					target: connection.targetId,
-					anchors: $.map(connection.endpoints, function (endpoint) {
+					'connectionId': connection.id,
+					'source': connection.sourceId,
+					'target': connection.targetId,
+					'anchors': $.map(connection.endpoints, function (endpoint) {
 						return [
 							[
 								endpoint.anchor.x,
@@ -216,8 +216,8 @@ var mapperEditor = new function () {
 			});
 
 			var data = {
-				nodes: nodes,
-				connections: connections
+				'nodes': nodes,
+				'connections': connections
 			};
 
 			localStorage.mapData = JSON.stringify(data);
@@ -248,34 +248,34 @@ var mapperEditor = new function () {
 			var $editPanel = $('<div/>', {
 				'class': 'edit-panel'
 			});
-			var $addBtn = $('<button/>', {
-				'class': 'add-btn',
-				text: 'Add node'
-			});
 			var $saveBtn = $('<button/>', {
 				'class': 'save-btn',
-				text: 'Save'
+				'text': 'Save'
+			});
+			var $addBtn = $('<button/>', {
+				'class': 'add-btn',
+				'text': 'Add node'
 			});
 			var $gridSelectorLabel = $('<label/>', {
 				'for': 'gridSelector',
-				text: 'Grid'
+				'text': 'Grid'
 			});
 			var $gridSelector = $('<select/>', {
-				id: 'gridSelector',
+				'id': 'gridSelector',
 				'class': 'grid-selector'
 			});
 			var optionValueArray = ['10px', '20px'];
 			for (var i = 0; i < 2; i++) {
 				$('<option/>', {
-					value: optionValueArray[i],
-					text: optionValueArray[i],
-					selected: (i == 0)
+					'value': optionValueArray[i],
+					'text': optionValueArray[i],
+					'selected': (i == 0)
 				}).appendTo($gridSelector);
 			}
-			$editPanel.append($addBtn).append($saveBtn).append($gridSelectorLabel).append($gridSelector).insertBefore($container);
+			$editPanel.append($saveBtn).append($addBtn).append($gridSelectorLabel).append($gridSelector).insertBefore($container);
 
-			$('.edit-panel .add-btn').on('click', _t.addNode);
 			$('.edit-panel .save-btn').on('click', _t.save);
+			$('.edit-panel .add-btn').on('click', _t.addNode);
 			$('.edit-panel .grid-selector').on('change', _t.buildGrid);
 		},
 		afterRenderAction: function () {
@@ -296,4 +296,5 @@ var mapperEditor = new function () {
 /* TODO: addNode() common approach */
 /* TODO: all css-selectors replace to variables. create css-selectors library */
 /* TODO: create editable method (draggable, resizable... in one block) */
-/* TODO:  !!! different types of nodes !!! */
+/* TODO: !!! different types of nodes !!! */
+/* TODO: determine imposed arrow start and finish */

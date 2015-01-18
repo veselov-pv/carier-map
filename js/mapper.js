@@ -15,39 +15,39 @@ var mapper = new function () {
 
 		initPlumb: function () {
 			plumb = jsPlumb.getInstance({
-				Container: "container"
+				'Container': "container"
 			});
 
 			plumb.importDefaults({
-				Connector: [ 'Flowchart', {
-					cornerRadius: 10,
-					stub: 28
+				'Connector': [ 'Flowchart', {
+					'cornerRadius': 10,
+					'stub': 28
 				} ],// "Straight", "Flowchart", "Bezier", "StateMachine"
-				ConnectionsDetachable: true,
-				ConnectionOverlays: [
-					[ "Arrow", {
-						location: 1,
-						width: 8,
-						length: 10,
-						foldback: 1
+				'ConnectionsDetachable': true,
+				'ConnectionOverlays': [
+					[ 'Arrow', {
+						'location': 1,
+						'width': 8,
+						'length': 10,
+						'foldback': 1
 					} ]
 				],
-				Endpoint: 'Blank',
-				MaxConnections: 10,
-				PaintStyle: {
-					strokeStyle: '#888',
-					lineWidth: 2,
+				'Endpoint': 'Blank',
+				'MaxConnections': 10,
+				'PaintStyle': {
+					'strokeStyle': '#888',
+					'lineWidth': 2,
 					'stroke-dasharray': [2, 2],
 					'stroke-dashoffset': [1, 1]
 				},
-				RenderMode: "svg"
+				'RenderMode': 'svg'
 			});
 
 			plumb.registerEndpointTypes({
-				'left': {anchor: 'Left'},
-				'right': {anchor: 'Right'},
-				'top': {anchor: 'Top'},
-				'bottom': {anchor: 'Bottom'}
+				'left': {'anchor': 'Left'},
+				'right': {'anchor': 'Right'},
+				'top': {'anchor': 'Top'},
+				'bottom': {'anchor': 'Bottom'}
 			});
 		},
 
@@ -58,8 +58,8 @@ var mapper = new function () {
 		addAllEndpoints: function (nodes) {
 			var $nodes = $(nodes);
 			var endpointOptions = {
-				isSource: true,
-				isTarget: true
+				'isSource': true,
+				'isTarget': true
 			};
 
 			$.each(['top', 'right', 'bottom', 'left'], function () {
@@ -101,19 +101,19 @@ var mapper = new function () {
 				var $nodes = $();
 				$.each(mapData.nodes, function (index, o) {
 					var nodeObj = {
-						id: o.id,
+						'id': o.id,
 						'class': 'node',
-						css: {
-							left: o.left,
-							top: o.top,
-							width: o.width,
-							height: o.height
+						'css': {
+							'left': o.left,
+							'top': o.top,
+							'width': o.width,
+							'height': o.height
 						}
 					};
 
 					var textWrapperObj = {
 						'class': 'text-wrapper',
-						html: o.html
+						'html': o.html
 					};
 
 					var $textWrapper = $('<span/>', textWrapperObj);
@@ -134,8 +134,8 @@ var mapper = new function () {
 					var source = _t.getEndpointByAnchorData(c.source, c.anchors[0]);
 					var target = _t.getEndpointByAnchorData(c.target, c.anchors[1]);
 					plumb.connect({
-						source: source,
-						target: target
+						'source': source,
+						'target': target
 					});
 				});
 			}
