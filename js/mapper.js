@@ -75,7 +75,7 @@ var mapper = new function () {
 
 		getEndpointByAnchorData: function (nodeId, anchorData) {
 			var neededEndpoint;
-			plumb.selectEndpoints({element: nodeId}).each(function (endpoint) {
+			plumb.selectEndpoints({'element': nodeId}).each(function (endpoint) {
 				if (endpoint.anchor.x == anchorData[0] && endpoint.anchor.y == anchorData[1]) neededEndpoint = endpoint;
 			});
 			return neededEndpoint;
@@ -102,12 +102,15 @@ var mapper = new function () {
 				$.each(mapData.nodes, function (index, o) {
 					var nodeObj = {
 						'id': o.id,
-						'class': 'node',
+						'class': 'node' + ' ' + o.nodeType,
 						'css': {
 							'left': o.left,
 							'top': o.top,
 							'width': o.width,
 							'height': o.height
+						},
+						'data': {
+							'nodeType': o.nodeType
 						}
 					};
 

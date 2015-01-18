@@ -1,5 +1,5 @@
 var mapperEditor = new function () {
-	var gridStep, plumb, _t, $container;
+	var plumb, _t, $container, selectedNodeType, gridStep;
 
 	return {
 		initModule: function () {
@@ -41,14 +41,18 @@ var mapperEditor = new function () {
 			return id;
 		},
 		addNode: function () {
+			var selectedNodeType = _t.getSelectedNodeType();
 			var defaultObj = {
 				'id': _t.getGeneratedId(),
-				'class': 'node',
+				'class': 'node' + ' ' + selectedNodeType,
 				'css': {
-					left: 40,
-					top: 40,
-					width: 100,
-					height: 40
+					'left': 40,
+					'top': 40,
+					'width': 100,
+					'height': 40
+				},
+				'data': {
+					'nodeType': selectedNodeType
 				}
 			};
 
@@ -71,6 +75,12 @@ var mapperEditor = new function () {
 
 			_t.verticalCenterAlign($newNode.find('.text-wrapper'));
 			_t.addAllEndpoints($newNode);
+		},
+		setSelectedNodeType: function (nodeType) {
+			selectedNodeType = nodeType;
+		},
+		getSelectedNodeType: function () {
+			return selectedNodeType;
 		},
 		setGridStep: function (step) {
 			gridStep = step;
@@ -98,7 +108,7 @@ var mapperEditor = new function () {
 				'grid': [step, step],
 				'containment': 'parent',
 				'disabled': mode,
-				//stack: '.node',  // high z-index for current draggable element
+				//'stack': '.node',  // high z-index for current draggable element
 				'start': function () {
 				},
 				'drag': function () {
@@ -180,6 +190,7 @@ var mapperEditor = new function () {
 			$nodeCollection.each(function () {
 				nodes.push({
 					'id': $(this).attr('id'),
+					'nodeType': $(this).data('nodeType'),
 					'html': $(this).find('.text-wrapper').html(),
 					'left': $(this).css('left'),
 					'top': $(this).css('top'),
@@ -237,12 +248,15 @@ var mapperEditor = new function () {
 			plumb.detach(connection);
 		},
 		initEditStyle: function () {
-			plumb.Defaults.Endpoint = [ "Dot", { radius: 7 } ];
-			plumb.Defaults.EndpointStyle = { strokeStyle: '#aaa', lineWidth: 1 };
-			plumb.Defaults.EndpointHoverStyle = { strokeStyle: '#666', lineWidth: 2 };
-			plumb.Defaults.HoverPaintStyle = { strokeStyle: '#333' };
+			plumb.Defaults.Endpoint = [ "Dot", { 'radius': 7 } ];
+			plumb.Defaults.EndpointStyle = { 'strokeStyle': '#aaa', 'lineWidth': 1 };
+			plumb.Defaults.EndpointHoverStyle = { 'strokeStyle': '#666', 'lineWidth': 2 };
+			plumb.Defaults.HoverPaintStyle = { 'strokeStyle': '#333' };
 
 			$container.parent().addClass('mapper-edit-mode');
+		},
+		selectNodeType: function () {
+			_t.setSelectedNodeType($('.edit-panel .node-type-selector').val());
 		},
 		buildEditControls: function () {
 			var $editPanel = $('<div/>', {
@@ -251,6 +265,26 @@ var mapperEditor = new function () {
 			var $saveBtn = $('<button/>', {
 				'class': 'save-btn',
 				'text': 'Save'
+			});
+			var $nodeTypeSelector = $('<select/>', {
+				'class': 'node-type-selector'
+			});
+			var nodeTypeOptions = [
+				{
+					'text': 'Development Line',
+					'value': 'dev-node'
+				},
+				{
+					'text': 'Head Management',
+					'value': 'head-node'
+				}
+			];
+			$.each(nodeTypeOptions, function (index, value) {
+				$('<option/>', {
+					'value': value.value,
+					'text': value.text,
+					'selected': (index == 0)
+				}).appendTo($nodeTypeSelector);
 			});
 			var $addBtn = $('<button/>', {
 				'class': 'add-btn',
@@ -264,17 +298,18 @@ var mapperEditor = new function () {
 				'id': 'gridSelector',
 				'class': 'grid-selector'
 			});
-			var optionValueArray = ['10px', '20px'];
-			for (var i = 0; i < 2; i++) {
+			var gridOptions = ['10px', '20px'];
+			$.each(gridOptions, function (index, value) {
 				$('<option/>', {
-					'value': optionValueArray[i],
-					'text': optionValueArray[i],
-					'selected': (i == 0)
+					'value': value,
+					'text': value,
+					'selected': (index == 0)
 				}).appendTo($gridSelector);
-			}
-			$editPanel.append($saveBtn).append($addBtn).append($gridSelectorLabel).append($gridSelector).insertBefore($container);
+			});
+			$editPanel.append($saveBtn).append($nodeTypeSelector).append($addBtn).append($gridSelectorLabel).append($gridSelector).insertBefore($container);
 
 			$('.edit-panel .save-btn').on('click', _t.save);
+			$('.edit-panel .node-type-selector').on('change', _t.selectNodeType);
 			$('.edit-panel .add-btn').on('click', _t.addNode);
 			$('.edit-panel .grid-selector').on('change', _t.buildGrid);
 		},
@@ -287,6 +322,7 @@ var mapperEditor = new function () {
 			plumb.bind('dblclick', _t.removeConnection);
 
 			_t.buildEditControls();
+			_t.selectNodeType();
 			_t.buildGrid();
 		}
 	}
@@ -296,5 +332,6 @@ var mapperEditor = new function () {
 /* TODO: addNode() common approach */
 /* TODO: all css-selectors replace to variables. create css-selectors library */
 /* TODO: create editable method (draggable, resizable... in one block) */
-/* TODO: !!! different types of nodes !!! */
 /* TODO: determine imposed arrow start and finish */
+/* TODO: different types of connectors */
+/* TODO: check crossbrowser compatibility */
