@@ -10,18 +10,18 @@ var mapperEditor = new function () {
 			_t.initEditStyle();
 		},
 		contentEditableChangeEventInit: function () {
-			$('body').on('contentEditableStart', '[contenteditable]',function () {
+			$('body').on('contentEditableStart', '[contenteditable]', function () {
 				var $this = $(this);
 				$this.data('beforeEditContent', $this.html());
 				return $this;
 			}).on('blur keyup paste cut input', '[contenteditable]', function () {
-					var $this = $(this);
-					if ($this.data('beforeEditContent') !== $this.html()) {
-						$this.data('beforeEditContent', $this.html());
-						$this.trigger('contentEditableChange');
-					}
-					return $this;
-				});
+				var $this = $(this);
+				if ($this.data('beforeEditContent') !== $this.html()) {
+					$this.data('beforeEditContent', $this.html());
+					$this.trigger('contentEditableChange');
+				}
+				return $this;
+			});
 		},
 		removeNode: function () {
 			var node = $(this).parent('.node').get(0);
@@ -157,7 +157,7 @@ var mapperEditor = new function () {
 		contentEditable: function (el) {
 			$(el).find('>*').not('.text-wrapper').prop('contenteditable', false);
 
-			$(el).on('dblclick',function () {
+			$(el).on('dblclick', function () {
 				_t.draggable(this, false);
 				$(this).addClass('editing');
 				var $textWr = $(this).find('.text-wrapper');
@@ -165,9 +165,9 @@ var mapperEditor = new function () {
 				$textWr.trigger('contentEditableStart');
 				_t.placeCaretAtEnd($textWr.get(0));
 			}).on('click', function () {
-					if (!$('.editing').not(this).size()) return;
-					$('.node').not(this).find('.text-wrapper').trigger('blur');
-				});
+				if (!$('.editing').not(this).size()) return;
+				$('.node').not(this).find('.text-wrapper').trigger('blur');
+			});
 			$(el).find('.text-wrapper').on('blur', function () {
 				$(this).prop('contenteditable', false);
 				var $parentNode = $(this).parent('.node');
@@ -258,6 +258,9 @@ var mapperEditor = new function () {
 		selectNodeType: function () {
 			_t.setSelectedNodeType($('.edit-panel .node-type-selector').val());
 		},
+		clearStorageMapData: function () {
+			localStorage.removeItem('mapData');
+		},
 		buildEditControls: function () {
 			var $editPanel = $('<div/>', {
 				'class': 'edit-panel'
@@ -322,12 +325,18 @@ var mapperEditor = new function () {
 					'selected': (index == 0)
 				}).appendTo($gridSelector);
 			});
-			$editPanel.append($saveBtn).append($nodeTypeSelector).append($addBtn).append($gridSelectorLabel).append($gridSelector).insertBefore($container);
+			var $clearBtn = $('<button/>', {
+				'class': 'clear-btn',
+				'text': 'Clear storage data',
+				'css': {'margin-left': 30, 'padding': '0 5px'}
+			});
+			$editPanel.append($saveBtn).append($nodeTypeSelector).append($addBtn).append($gridSelectorLabel).append($gridSelector).append($clearBtn).insertBefore($container);
 
 			$('.edit-panel .save-btn').on('click', _t.save);
 			$('.edit-panel .node-type-selector').on('change', _t.selectNodeType);
 			$('.edit-panel .add-btn').on('click', _t.addNode);
 			$('.edit-panel .grid-selector').on('change', _t.buildGrid);
+			$('.edit-panel .clear-btn').on('click', _t.clearStorageMapData);
 		},
 		afterRenderAction: function () {
 			_t.draggable('.node');
