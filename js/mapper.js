@@ -65,7 +65,7 @@ var mapper = new function () {
 			$.each(['top', 'right', 'bottom', 'left'], function () {
 				var type = this;
 				var points = plumb.addEndpoint($nodes, endpointOptions);
-				points = Array.isArray(points) ? points : [points];
+				points = (Object.prototype.toString.call(points) === '[object Array]') ? points : [points];
 
 				$.each(points, function () {
 					this.addType(type);

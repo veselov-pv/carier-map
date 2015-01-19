@@ -204,7 +204,7 @@ var mapperEditor = new function () {
 			/* save connections */
 			var connections = [];
 			var plumbConnections = plumb.getConnections();
-			plumbConnections = Array.isArray(plumbConnections) ? plumbConnections : [plumbConnections];
+			plumbConnections = (Object.prototype.toString.call(plumbConnections) === '[object Array]') ? plumbConnections : [plumbConnections];
 			$.each(plumbConnections, function (idx, connection) {
 				connections.push({
 					'connectionId': connection.id,
