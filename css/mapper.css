@@ -148,6 +148,11 @@
 ._jsPlumb_endpoint {
 	z-index: 50;
 	cursor: move;
+	opacity: 0.5;
+}
+
+._jsPlumb_endpoint._jsPlumb_hover {
+	opacity: 1;
 }
 
 ._jsPlumb_connector {

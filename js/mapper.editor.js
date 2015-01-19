@@ -249,7 +249,7 @@ var mapperEditor = new function () {
 		},
 		initEditStyle: function () {
 			plumb.Defaults.Endpoint = [ "Dot", { 'radius': 7 } ];
-			plumb.Defaults.EndpointStyle = { 'strokeStyle': '#aaa', 'lineWidth': 1 };
+			plumb.Defaults.EndpointStyle = { 'strokeStyle': '#888', 'lineWidth': 1, 'fillStyle': '#fff' };
 			plumb.Defaults.EndpointHoverStyle = { 'strokeStyle': '#666', 'lineWidth': 2 };
 			plumb.Defaults.HoverPaintStyle = { 'strokeStyle': '#333' };
 
