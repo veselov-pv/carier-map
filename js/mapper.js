@@ -86,7 +86,7 @@ var mapper = new function () {
 				var $el = $(this);
 				var $parent = $el.parent();
 				var marginTop = ($parent.height() - parseFloat($parent.css('padding-top')) - $el.height()) / 2;
-				$el.css('margin-top', marginTop)
+				$el.css('margin-top', marginTop);
 			});
 		},
 
@@ -128,7 +128,7 @@ var mapper = new function () {
 
 				$container.append($nodes);
 
-				_t.verticalCenterAlign($nodes.find('.text-wrapper'));
+				_t.verticalCenterAlign($nodes.not('.head-block, .dev-block').find('.text-wrapper'));
 				_t.addAllEndpoints($nodes);
 
 				/* load connections */

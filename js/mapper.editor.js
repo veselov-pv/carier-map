@@ -65,7 +65,7 @@ var mapperEditor = new function () {
 
 			var $newNode = $('<div/>', defaultObj).append($textWrapper);
 
-			_t.verticalCenterAlignOnContentEdit($textWrapper);
+			_t.verticalCenterAlignOnContentEdit($newNode.not('.head-node, .dev-block').find('.text-wrapper'));
 			_t.contentEditable($newNode);
 			_t.draggable($newNode);
 			_t.resizable($newNode);
@@ -73,7 +73,7 @@ var mapperEditor = new function () {
 
 			$container.append($newNode);
 
-			_t.verticalCenterAlign($newNode.find('.text-wrapper'));
+			_t.verticalCenterAlign($newNode.not('.head-node, .dev-block').find('.text-wrapper'));
 			_t.addAllEndpoints($newNode);
 		},
 		setSelectedNodeType: function (nodeType) {
@@ -97,7 +97,7 @@ var mapperEditor = new function () {
 			$(el).resizable({
 				'grid': step,
 				'resize': function (e, ui) {
-					_t.verticalCenterAlign($(ui.element).find('.text-wrapper'));
+					_t.verticalCenterAlign($(ui.element).not('.head-block, .dev-block').find('.text-wrapper'));
 				}
 			});
 		},
@@ -275,8 +275,24 @@ var mapperEditor = new function () {
 					'value': 'dev-node'
 				},
 				{
+					'text': 'Dev Management',
+					'value': 'manager-node'
+				},
+				{
+					'text': 'Dev Director',
+					'value': 'director-node'
+				},
+				{
 					'text': 'Head Management',
 					'value': 'head-node'
+				},
+				{
+					'text': 'Head Block',
+					'value': 'head-block'
+				},
+				{
+					'text': 'Dev Block',
+					'value': 'dev-block'
 				}
 			];
 			$.each(nodeTypeOptions, function (index, value) {
@@ -318,7 +334,7 @@ var mapperEditor = new function () {
 			_t.resizable('.node');
 			_t.contentEditable('.node');
 			_t.removable('.node');
-			_t.verticalCenterAlignOnContentEdit('.text-wrapper');
+			_t.verticalCenterAlignOnContentEdit($('.node').not('.head-block, .dev-block').find('.text-wrapper'));
 			plumb.bind('dblclick', _t.removeConnection);
 
 			_t.buildEditControls();
@@ -335,3 +351,4 @@ var mapperEditor = new function () {
 /* TODO: determine imposed arrow start and finish */
 /* TODO: different types of connectors */
 /* TODO: check crossbrowser compatibility */
+/* TODO: css reformat: common styles move to '.node' and '.node .text-wrapper' */
