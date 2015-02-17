@@ -361,3 +361,4 @@ var mapperEditor = new function () {
 /* TODO: different types of connectors */
 /* TODO: check crossbrowser compatibility */
 /* TODO: css reformat: common styles move to '.node' and '.node .text-wrapper' */
+/* TODO: css reformat: common styles for blocks' */

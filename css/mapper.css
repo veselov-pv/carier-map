@@ -118,7 +118,7 @@
 
 .head-block .text-wrapper {
 	display: inline-block;
-	padding: 15px;
+	padding: 5px 10px;
 	color: #fdfeff;
 	font-family: Helvetica, Arial, sans-serif;
 	font-size: 17px;
@@ -134,7 +134,7 @@
 
 .dev-block .text-wrapper {
 	display: inline-block;
-	padding: 15px;
+	padding: 5px 10px;
 	color: #3f73a2;
 	font-family: Helvetica, Arial, sans-serif;
 	font-size: 17px;
